@@ -7,6 +7,9 @@ import yaml from "js-yaml";
 import fs from "fs";
 import path from "path";
 import { AppDataSource } from "./data-source";
+import { User } from "./user/entity/User.entity";
+import { userRoutes } from "./user/routes";
+import { apiRoutes } from "./routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,9 +33,7 @@ async function bootstrap() {
   // Swagger UI setup
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  app.get("/", (req, res) => {
-    res.send("Hello World");
-  });
+  app.use("/", apiRoutes);
 
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

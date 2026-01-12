@@ -7,25 +7,37 @@ servers:
   - url: http://localhost:3000
     description: Development server
 paths:
-  /:
+  /users:
     get:
-      summary: Hello World endpoint
-      description: Returns a simple hello world message
+      summary: Get all users
+      description: Retrieve a list of users with pagination support
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
       responses:
         '200':
           description: Successful response
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-                example: Hello World
-  /api-docs:
-    get:
-      summary: Swagger UI endpoint
-      description: Serves the Swagger UI interface
-      responses:
-        '200':
-          description: Swagger UI page
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
 components:
   schemas:
     User:
