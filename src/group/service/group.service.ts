@@ -49,7 +49,6 @@ export class GroupService {
   async removeUserFromGroup(groupId: number, userId: number) {
     const group = await AppDataSource.manager.findOne(Group, {
       where: { id: groupId },
-      relations: ["users"],
     });
     if (!group) {
       throw new NotFoundException("Group not found");
@@ -70,7 +69,6 @@ export class GroupService {
   async addUserToGroup(groupId: number, userId: number) {
     const group = await AppDataSource.manager.findOne(Group, {
       where: { id: groupId },
-      relations: ["users"],
     });
     if (!group) {
       throw new NotFoundException("Group not found");

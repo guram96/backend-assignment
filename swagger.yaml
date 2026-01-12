@@ -38,6 +38,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+  /users/update-user-statuses:
+    post:
+      summary: Update user statuses
+      description: Update statuses for multiple users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserStatusUpdate'
+      responses:
+        '200':
+          description: User statuses updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Response containing updated users
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
   /groups:
     get:
       summary: Get all groups
@@ -194,4 +224,22 @@ components:
       required:
         - id
         - name
+        - status
+    UserStatusUpdate:
+      type: object
+      properties:
+        userId:
+          type: integer
+          description: ID of the user to update
+          example: 1
+        status:
+          type: string
+          enum:
+            - pending
+            - active
+            - blocked
+          description: New status for the user
+          example: active
+      required:
+        - userId
         - status

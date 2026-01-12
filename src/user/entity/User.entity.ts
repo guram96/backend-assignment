@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Group } from "../../group/entity/group.entity";
+import { userStatus } from "../types";
 
 @Entity("users")
 export class User {
@@ -21,6 +22,9 @@ export class User {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column()
+  status: userStatus;
 
   @ManyToMany(() => Group, (group) => group.users)
   @JoinTable({

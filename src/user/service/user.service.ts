@@ -2,6 +2,8 @@ import { plainToInstance } from "class-transformer";
 import { AppDataSource } from "../../data-source";
 import { User } from "../entity/user.entity";
 import { UserDto } from "../dto/user.dto";
+import { UpdateUserStatusesDto } from "../dto/update-user-statuses.dto";
+import { NotFoundException } from "../../common/http.exceptions";
 
 export class UserService {
   private static instance: UserService;
@@ -44,5 +46,28 @@ export class UserService {
       relations: ["groups"],
     });
     return user;
+  }
+
+  async updateUserStatuses(statuses: UpdateUserStatusesDto[]) {
+    // NOTE: this is a good case to background job processing, but we are out of time.
+    // with background processing we could see individual user status updates as they happen, retry if failed,
+    // and it would improve performance as well.
+    await AppDataSource.manager.transaction(
+      async (transactionalEntityManager) => {
+        for (const status of statuses) {
+          const user = await transactionalEntityManager.findOne(User, {
+            where: { id: status.userId },
+          });
+          if (!user) {
+            throw new NotFoundException("User not found");
+          }
+          await transactionalEntityManager.update(User, status.userId, {
+            status: status.status,
+          });
+        }
+      }
+    );
+    // NOTE: we could return the updates users here to indicate success, but maybe in the future.
+    return statuses;
   }
 }

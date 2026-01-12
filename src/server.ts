@@ -7,8 +7,6 @@ import yaml from "js-yaml";
 import fs from "fs";
 import path from "path";
 import { AppDataSource } from "./data-source";
-import { User } from "./user/entity/user.entity";
-import { userRoutes } from "./user/routes";
 import { apiRoutes } from "./routes";
 
 const app = express();
