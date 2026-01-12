@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { AppDataSource } from "../../data-source";
-import { User } from "../entity/User.entity";
-import { UserDto } from "../dto/User.dto";
+import { User } from "../entity/user.entity";
+import { UserDto } from "../dto/user.dto";
 
 export class UserService {
   private static instance: UserService;
@@ -23,8 +23,10 @@ export class UserService {
       const allUsers = await AppDataSource.manager.find(User, {
         skip,
         take: limit,
+        relations: ["groups"],
       });
 
+      // convert users to DTOs, this will allow us to hide sensitive data
       const usersDto: UserDto[] = allUsers.map((user) =>
         plainToInstance(UserDto, user, { excludeExtraneousValues: true })
       );

@@ -38,6 +38,37 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+  /groups:
+    get:
+      summary: Get all groups
+      description: Retrieve a list of groups with pagination support
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
 components:
   schemas:
     User:
@@ -62,3 +93,19 @@ components:
         - name
         - email
         - createdAt
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Group ID
+        name:
+          type: string
+          description: Group name
+        status:
+          type: string
+          description: Group status
+      required:
+        - id
+        - name
+        - status

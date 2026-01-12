@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Group } from "../../group/entity/group.entity";
 
 @Entity("users")
 export class User {
@@ -13,4 +21,12 @@ export class User {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToMany(() => Group, (group) => group.users)
+  @JoinTable({
+    name: "user_groups",
+    joinColumn: { name: "user_id", referencedColumnName: "id" },
+    inverseJoinColumn: { name: "group_id", referencedColumnName: "id" },
+  })
+  groups: Group[];
 }

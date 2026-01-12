@@ -1,8 +1,8 @@
-import { IsDate, IsEmail, IsNumber, IsString } from "class-validator";
+import { IsDate, IsNumber, IsString } from "class-validator";
 import { Expose, Type } from "class-transformer";
-import { GroupDto } from "../../group/dto/group.dto";
+import { UserDto } from "../../user/dto/user.dto";
 
-export class UserDto {
+export class GroupDto {
   @Expose()
   @IsNumber()
   id: number;
@@ -12,8 +12,8 @@ export class UserDto {
   name: string;
 
   @Expose()
-  @IsEmail()
-  email: string;
+  @IsString()
+  status: string;
 
   @Expose()
   @IsDate()
@@ -21,6 +21,6 @@ export class UserDto {
   createdAt: Date;
 
   @Expose()
-  @Type(() => GroupDto)
-  groups?: GroupDto[];
+  @Type(() => UserDto)
+  users?: UserDto[];
 }
