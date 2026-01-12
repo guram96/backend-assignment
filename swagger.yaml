@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Backend Assignment API
+  version: 1.0.0
+  description: API documentation for Backend Assignment
+servers:
+  - url: http://localhost:3000
+    description: Development server
+paths:
+  /:
+    get:
+      summary: Hello World endpoint
+      description: Returns a simple hello world message
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello World
+  /api-docs:
+    get:
+      summary: Swagger UI endpoint
+      description: Serves the Swagger UI interface
+      responses:
+        '200':
+          description: Swagger UI page
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: User ID
+        name:
+          type: string
+          description: User name
+        email:
+          type: string
+          format: email
+          description: User email
+        createdAt:
+          type: string
+          format: date-time
+          description: User creation timestamp
+      required:
+        - id
+        - name
+        - email
+        - createdAt
