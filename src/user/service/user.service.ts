@@ -19,27 +19,30 @@ export class UserService {
     const page = parseInt(query.page as string) || 1;
     const limit = parseInt(query.limit as string) || 10;
     const skip = (page - 1) * limit;
-    try {
-      const allUsers = await AppDataSource.manager.find(User, {
-        skip,
-        take: limit,
-        relations: ["groups"],
-      });
+    const allUsers = await AppDataSource.manager.find(User, {
+      skip,
+      take: limit,
+      relations: ["groups"],
+    });
 
-      // convert users to DTOs, this will allow us to hide sensitive data
-      const usersDto: UserDto[] = allUsers.map((user) =>
-        plainToInstance(UserDto, user, { excludeExtraneousValues: true })
-      );
+    // convert users to DTOs, this will allow us to hide sensitive data
+    const usersDto: UserDto[] = allUsers.map((user) =>
+      plainToInstance(UserDto, user, { excludeExtraneousValues: true })
+    );
 
-      return {
-        data: usersDto,
-        page,
-        limit,
-        total: usersDto.length,
-      };
-    } catch (error) {
-      console.error(error);
-      throw new Error("Failed to get users");
-    }
+    return {
+      data: usersDto,
+      page,
+      limit,
+      total: usersDto.length,
+    };
+  }
+
+  async getUserById(id: number) {
+    const user = await AppDataSource.manager.findOne(User, {
+      where: { id },
+      relations: ["groups"],
+    });
+    return user;
   }
 }

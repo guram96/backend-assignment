@@ -69,6 +69,92 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Group'
+  /groups/add-user:
+    post:
+      summary: Add user to group
+      description: Add a user to a group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                groupId:
+                  type: integer
+                  description: ID of the group
+                  example: 1
+                userId:
+                  type: integer
+                  description: ID of the user to add
+                  example: 1
+              required:
+                - groupId
+                - userId
+      responses:
+        '200':
+          description: User added to group successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User added to group successfully
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+  /groups/remove-user:
+    post:
+      summary: Remove user from group
+      description: Remove a user from a group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                groupId:
+                  type: integer
+                  description: ID of the group
+                  example: 1
+                userId:
+                  type: integer
+                  description: ID of the user to remove
+                  example: 1
+              required:
+                - groupId
+                - userId
+      responses:
+        '200':
+          description: User removed from group successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User removed from group successfully
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
 components:
   schemas:
     User:

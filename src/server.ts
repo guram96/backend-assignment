@@ -30,6 +30,10 @@ async function bootstrap() {
   // CORS setup
   app.use(cors());
 
+  // Body parsing middleware
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
   // Swagger UI setup
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
